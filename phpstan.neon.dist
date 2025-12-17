@@ -1,0 +1,12 @@
+parameters:
+  paths:
+    - src
+    - tests
+  excludePaths:
+    analyse:
+      - tests/phpunit/bootstrap.php
+  level: 9
+  checkTooWideReturnTypesInProtectedAndPublicMethods: true
+  checkUninitializedProperties: true
+  checkMissingCallableSignature: true
+  tmpDir: .phpstan
