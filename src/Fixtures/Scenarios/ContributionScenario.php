@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Systopia\TestFixtures\Fixtures\Scenarios;
 
-use Systopia\TestFixtures\Core\AbstractBaseFixtureBag;
 use Systopia\TestFixtures\Fixtures\Bags\ContributionBag;
 use Systopia\TestFixtures\Fixtures\Builders\ContactBuilder;
 use Systopia\TestFixtures\Fixtures\Builders\ContributionBuilder;
@@ -33,14 +32,14 @@ final class ContributionScenario {
    * @param array<string, mixed> $contributionOverrides
    *   Optional overrides for {@see ContributionBuilder::createPendingForContact()}.
    *
-   * @return \Systopia\TestFixtures\Core\AbstractBaseFixtureBag
+   * @return \Systopia\TestFixtures\Fixtures\Bags\ContributionBag
    *   A fixture bag containing: contactId, membershipId, contributionId.
    */
   public static function contactWithMembershipAndOpenContribution(
     array $contactOverrides = [],
     array $membershipOverrides = [],
     array $contributionOverrides = [],
-  ): AbstractBaseFixtureBag {
+  ): ContributionBag {
     $contactId = ContactBuilder::createDefault($contactOverrides);
     $membershipId = MembershipBuilder::createForContact($contactId, $membershipOverrides);
     $contributionId = ContributionBuilder::createPendingForContact($contactId, $contributionOverrides);

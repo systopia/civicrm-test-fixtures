@@ -35,6 +35,7 @@ final class ContributionRecurBag extends AbstractBaseFixtureBag {
   public function __construct(
     public readonly int $contactId,
     public readonly ?int $membershipId = NULL,
+    public readonly ?int $contributionId = NULL,
     public readonly ?int $recurringContributionId = NULL,
   ) {
     if ($contactId <= 0) {
@@ -43,6 +44,10 @@ final class ContributionRecurBag extends AbstractBaseFixtureBag {
 
     if ($membershipId !== NULL && $membershipId <= 0) {
       throw new InvalidArgumentException('membershipId must be a positive integer when provided.');
+    }
+
+    if ($contributionId !== NULL && $contributionId <= 0) {
+      throw new InvalidArgumentException('contributionId must be a positive integer when provided.');
     }
 
     if ($recurringContributionId !== NULL && $recurringContributionId <= 0) {
@@ -59,7 +64,7 @@ final class ContributionRecurBag extends AbstractBaseFixtureBag {
    * @return non-empty-list<string>
    */
   public static function schema(): array {
-    return ['contactId', 'membershipId', 'recurringContributionId'];
+    return ['contactId', 'membershipId', 'recurringContributionId', 'contributionId'];
   }
 
   /**
@@ -72,6 +77,7 @@ final class ContributionRecurBag extends AbstractBaseFixtureBag {
       'contactId' => $this->contactId,
       'membershipId' => $this->membershipId,
       'recurringContributionId' => $this->recurringContributionId,
+      'contributionId' => $this->contributionId,
     ];
   }
 
@@ -85,6 +91,8 @@ final class ContributionRecurBag extends AbstractBaseFixtureBag {
    *   ID of the created contact.
    * @param int|null $membershipId
    *   Optional membership ID.
+   * @param int|null $contributionId
+   *   Optional contribution ID.
    * @param int|null $recurringContributionId
    *   Optional recurring contribution ID.
    *
@@ -93,9 +101,10 @@ final class ContributionRecurBag extends AbstractBaseFixtureBag {
   public static function fromIds(
     int $contactId,
     ?int $membershipId = NULL,
+    ?int $contributionId = NULL,
     ?int $recurringContributionId = NULL,
   ): self {
-    return new self($contactId, $membershipId, $recurringContributionId);
+    return new self($contactId, $membershipId, $contributionId, $recurringContributionId);
   }
 
 }

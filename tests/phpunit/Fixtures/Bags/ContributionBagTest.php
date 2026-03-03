@@ -31,7 +31,7 @@ final class ContributionBagTest extends TestCase {
   public function testConstructor_WithInvalidContactId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
     new ContributionBag(
-      contactId: 0, membershipId: 1, contributionId: NULL
+      contactId: 0, membershipId: 1
     );
   }
 
@@ -42,7 +42,7 @@ final class ContributionBagTest extends TestCase {
     $this->expectException(\InvalidArgumentException::class);
 
     new ContributionBag(
-      contactId: 1, membershipId: 0, contributionId: NULL
+      contactId: 1, membershipId: 0
     );
   }
 

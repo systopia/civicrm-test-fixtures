@@ -17,7 +17,6 @@ This library is intentionally **not**:
 
 - an ORM or persistence abstraction
 - a general-purpose APIv4 wrapper
-- intended for production code
 - a replacement for CiviCRM business logic
 
 It exists solely to make **tests comfortable, readable, repeatable and intention-revealing**.
@@ -26,16 +25,8 @@ It exists solely to make **tests comfortable, readable, repeatable and intention
 
 ## Installation
 
-### Requirements
-
-- PHP >= 8.1
-- CiviCRM with APIv4 enabled
-- Intended for test environments only
-
-Install via Composer (typically as a dev dependency):
-
 ```bash
-composer require --dev systopia/test-fixtures
+composer require --dev systopia/civicrm-test-fixtures
 ```
 
 ---
@@ -65,12 +56,12 @@ Scenarios create real CiviCRM entities.
 
 ## Quick Start
 
-### Create a scenario (Contact + Membership + open Contribution)
+### Create a scenario (Contact + Membership + pending Contribution)
 
 ```php
 use Systopia\TestFixtures\Fixtures\Scenarios\ContributionScenario;
 
-$bag = ContributionScenario::contactWithMembershipAndOpenContribution();
+$bag = ContributionScenario::contactWithMembershipAndPendingContribution();
 
 $data = $bag->toArray();
 
@@ -81,14 +72,14 @@ $contributionId = $data['contributionId'];
 
 ### Overrides
 
-Most builders/scenarios accept override arrays (array<string, mixed>) which are merged into defaults.
+Most builders/scenarios accept override arrays ```array<string, mixed>``` which are merged into defaults.
 
 Override contact, membership and contribution fields:
 
 ```php
 use Systopia\TestFixtures\Fixtures\Scenarios\ContributionScenario;
 
-$bag = ContributionScenario::contactWithMembershipAndOpenContribution(
+$bag = ContributionScenario::contactWithMembershipAndPendingContribution(
   contactOverrides: [
     'first_name' => 'Ada',
     'last_name'  => 'Lovelace',
@@ -119,7 +110,7 @@ $contactId = ContactBuilder::createDefault([
 ]);
 ```
 
-Create an open (pending) Contribution and an active membership for a contact:
+Create a pending Contribution and an active membership for a contact:
 
 ```php
 use Systopia\TestFixtures\Fixtures\Builders\ContributionBuilder;
@@ -136,12 +127,12 @@ Fixture bags validate that:
 - the export contains all keys defined in the schema
 - no extra keys are present
 
-Consume IDs via toArray():
+Consume IDs via ```toArray()```:
 
 ```php
 use Systopia\TestFixtures\Fixtures\Scenarios\ContributionScenario;
 
-$bag = ContributionScenario::contactWithMembershipAndOpenContribution();
+$bag = ContributionScenario::contactWithMembershipAndPendingContribution();
 
 $data = $bag->toArray();
 
@@ -183,8 +174,8 @@ final class ScenarioTest extends TestCase {
     parent::tearDown();
   }
 
-  public function testContactWithMembershipAndOpenContribution_CreatesAndReturnsBag(): void {
-    $bag = ContributionScenario::contactWithMembershipAndOpenContribution();
+  public function testContactWithMembershipAndPendingContribution_CreatesAndReturnsBag(): void {
+    $bag = ContributionScenario::contactWithMembershipAndPendingContribution();
 
     $data = $bag->toArray();
 

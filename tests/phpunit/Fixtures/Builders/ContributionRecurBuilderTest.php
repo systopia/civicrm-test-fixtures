@@ -28,7 +28,7 @@ final class ContributionRecurBuilderTest extends TestCase {
    *
    */
   protected function tearDown(): void {
-    if ($this->tx !== NULL) {
+    if ($this->tx instanceof \CRM_Core_Transaction) {
       $this->tx->rollback();
       $this->tx = NULL;
     }
@@ -44,13 +44,19 @@ final class ContributionRecurBuilderTest extends TestCase {
 
     self::assertGreaterThan(0, $recurId);
 
-    $recur = ContributionRecur::get(FALSE)->addWhere('id', '=', $recurId)->execute()->first();
+    $recur = ContributionRecur::get(FALSE)
+      ->addSelect('*')
+      ->addSelect('contribution_status_id:name')
+      ->addSelect('financial_type_id:name')
+      ->addWhere('id', '=', $recurId)
+      ->execute()
+      ->first();
 
     self::assertNotNull($recur);
     self::assertSame($contactId, (int) $recur['contact_id']);
     self::assertSame('EUR', (string) $recur['currency']);
-    self::assertGreaterThan(0, (int) $recur['financial_type_id']);
-    self::assertGreaterThan(0, (int) $recur['contribution_status_id']);
+    self::assertEquals('Donation', (string) $recur['financial_type_id:name']);
+    self::assertEquals('Pending', (string) $recur['contribution_status_id:name']);
     self::assertSame('month', (string) $recur['frequency_unit']);
     self::assertSame(1, (int) $recur['frequency_interval']);
     self::assertNotEmpty($recur['start_date']);
@@ -87,10 +93,13 @@ final class ContributionRecurBuilderTest extends TestCase {
     $contactId = ContactBuilder::create();
     $recurId = ContributionRecurBuilder::createPendingForContact($contactId);
 
-    $recur = ContributionRecur::get(FALSE)->addWhere('id', '=', $recurId)->execute()->first();
+    $recur = ContributionRecur::get(FALSE)
+      ->addSelect('contribution_status_id:name')
+      ->addWhere('id', '=', $recurId)
+      ->execute()->first();
 
     self::assertNotNull($recur);
-    self::assertGreaterThan(0, (int) $recur['contribution_status_id']);
+    self::assertEquals('Pending', $recur['contribution_status_id:name']);
   }
 
   /**
@@ -100,10 +109,13 @@ final class ContributionRecurBuilderTest extends TestCase {
     $contactId = ContactBuilder::create();
     $recurId = ContributionRecurBuilder::createCompletedForContact($contactId);
 
-    $recur = ContributionRecur::get(FALSE)->addWhere('id', '=', $recurId)->execute()->first();
+    $recur = ContributionRecur::get(FALSE)
+      ->addSelect('contribution_status_id:name')
+      ->addWhere('id', '=', $recurId)
+      ->execute()->first();
 
     self::assertNotNull($recur);
-    self::assertGreaterThan(0, (int) $recur['contribution_status_id']);
+    self::assertEquals('Completed', $recur['contribution_status_id:name']);
   }
 
   /**

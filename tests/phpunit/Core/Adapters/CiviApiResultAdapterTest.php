@@ -23,7 +23,7 @@ final class CiviApiResultAdapterTest extends TestCase {
     $apiResult = new class($expectedRow) {
 
       /** @var array<string, mixed> */
-      private array $row;
+      private readonly array $row;
 
       /**
        * @param array<string, mixed> $row
@@ -53,10 +53,7 @@ final class CiviApiResultAdapterTest extends TestCase {
     // Fake API result returning null.
     $apiResult = new class {
 
-      /**
-       * @return null
-       */
-      public function first() {
+      public function first(): null {
         return NULL;
       }
 

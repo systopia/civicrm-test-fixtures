@@ -27,7 +27,7 @@ final class FinancialTypeBuilderTest extends TestCase {
    *
    */
   protected function tearDown(): void {
-    if ($this->tx !== NULL) {
+    if ($this->tx instanceof \CRM_Core_Transaction) {
       $this->tx->rollback();
       $this->tx = NULL;
     }
@@ -70,7 +70,7 @@ final class FinancialTypeBuilderTest extends TestCase {
   /**
    *
    */
-  public function testCreate_ThrowsException_WhenNameIsEmpty(): void {
+  public function testCreate_WithEmptyName_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
 
     FinancialTypeBuilder::create([

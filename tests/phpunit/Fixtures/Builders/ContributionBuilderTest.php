@@ -28,7 +28,7 @@ final class ContributionBuilderTest extends TestCase {
    *
    */
   protected function tearDown(): void {
-    if ($this->tx !== NULL) {
+    if ($this->tx instanceof \CRM_Core_Transaction) {
       $this->tx->rollback();
       $this->tx = NULL;
     }
@@ -82,10 +82,13 @@ final class ContributionBuilderTest extends TestCase {
     $contactId = ContactBuilder::create();
     $contributionId = ContributionBuilder::createPendingForContact($contactId);
 
-    $contribution = Contribution::get(FALSE)->addWhere('id', '=', $contributionId)->execute()->first();
+    $contribution = Contribution::get(FALSE)
+      ->addSelect('contribution_status_id:name')
+      ->addWhere('id', '=', $contributionId)
+      ->execute()->first();
 
     self::assertNotNull($contribution);
-    self::assertGreaterThan(0, (int) $contribution['contribution_status_id']);
+    self::assertEquals('Pending', $contribution['contribution_status_id:name']);
   }
 
   /**
@@ -95,33 +98,29 @@ final class ContributionBuilderTest extends TestCase {
     $contactId = ContactBuilder::create();
     $contributionId = ContributionBuilder::createCompletedForContact($contactId);
 
-    $contribution = Contribution::get(FALSE)->addWhere('id', '=', $contributionId)->execute()->first();
+    $contribution = Contribution::get(FALSE)
+      ->addSelect('contribution_status_id:name')
+      ->addWhere('id', '=', $contributionId)
+      ->execute()->first();
 
     self::assertNotNull($contribution);
-    self::assertGreaterThan(0, (int) $contribution['contribution_status_id']);
+    self::assertEquals('Completed', $contribution['contribution_status_id:name']);
   }
 
   /**
    *
    */
-  public function testCreatePendingForContact_AndCreateCompletedForContact_HaveDifferentStatuses(): void {
+  public function testCreateCancelledForContact_SetsCancelledStatus(): void {
     $contactId = ContactBuilder::create();
+    $contributionId = ContributionBuilder::createCancelledForContact($contactId);
 
-    $openId = ContributionBuilder::createPendingForContact($contactId);
-    $completedId = ContributionBuilder::createCompletedForContact($contactId);
+    $contribution = Contribution::get(FALSE)
+      ->addSelect('contribution_status_id:name')
+      ->addWhere('id', '=', $contributionId)
+      ->execute()->first();
 
-    $open = Contribution::get(FALSE)->addWhere('id', '=', $openId)->execute()->first();
-
-    $completed = Contribution::get(FALSE)->addWhere('id', '=', $completedId)->execute()->first();
-
-    self::assertNotNull($open);
-    self::assertNotNull($completed);
-
-    self::assertNotSame(
-      (int) $open['contribution_status_id'],
-      (int) $completed['contribution_status_id'],
-      'Open and completed contributions must use different contribution_status_id values.'
-    );
+    self::assertNotNull($contribution);
+    self::assertEquals('Cancelled', $contribution['contribution_status_id:name']);
   }
 
   /**

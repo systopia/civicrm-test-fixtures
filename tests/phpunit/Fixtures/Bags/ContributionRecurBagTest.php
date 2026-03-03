@@ -52,6 +52,14 @@ final class ContributionRecurBagTest extends TestCase {
   /**
    *
    */
+  public function testConstructor_WithInvalidContributionId_ThrowsException(): void {
+    $this->expectException(\InvalidArgumentException::class);
+    new ContributionRecurBag(contactId: 1, contributionId: 0, recurringContributionId: 0);
+  }
+
+  /**
+   *
+   */
   public function testFromIds_WithValidValues_ReturnsBag(): void {
     $bag = ContributionRecurBag::fromIds(
       contactId: 10,
@@ -76,6 +84,7 @@ final class ContributionRecurBagTest extends TestCase {
       'contactId' => 1,
       'membershipId' => 2,
       'recurringContributionId' => 3,
+      'contributionId' => NULL,
     ], $bag->toArray());
   }
 

@@ -6,7 +6,6 @@ namespace Systopia\TestFixtures\Fixtures\Builders;
 
 use Civi\Api4\Contribution;
 use Systopia\TestFixtures\Core\AbstractBaseBuilder;
-use Systopia\TestFixtures\Core\BuilderConfig;
 
 /**
  * Builder for CiviCRM Contribution entities.
@@ -14,30 +13,9 @@ use Systopia\TestFixtures\Core\BuilderConfig;
  * This builder provides sensible defaults and convenience methods for
  * creating contributions for a given contact.
  *
- * The status IDs are centralized in {@see BuilderConfig}.
- *
  * All builder methods return the numeric contribution ID created via APIv4.
  */
 final class ContributionBuilder extends AbstractBaseBuilder {
-
-  /**
-   * Cached builder configuration.
-   *
-   * This is static to keep the default behavior consistent across all calls
-   * during a test run.
-   *
-   * @var \Systopia\TestFixtures\Core\BuilderConfig|null
-   */
-  private static ?BuilderConfig $config = NULL;
-
-  /**
-   * Get the builder configuration (lazy default).
-   *
-   * @return \Systopia\TestFixtures\Core\BuilderConfig
-   */
-  private static function getConfig(): BuilderConfig {
-    return self::$config ??= new BuilderConfig();
-  }
 
   /**
    * Return the APIv4 entity class handled by this builder.
@@ -63,14 +41,13 @@ final class ContributionBuilder extends AbstractBaseBuilder {
    *   Final payload passed to the APIv4 create action.
    */
   protected static function defineDefaults(array $overrides = []): array {
-    $config = self::getConfig();
-
     $base = [
       'total_amount' => 10.00,
       'receive_date' => date('Y-m-d H:i:s'),
       'currency' => 'EUR',
-      'financial_type_id' => $config->defaultFinancialTypeId,
-      'contribution_status_id' => $config->statusPendingId,
+      'financial_type_id:name' => 'Donation',
+      'contribution_status_id:name' => 'Pending',
+      'next_sched_contribution_date' => (new \DateTime('+1 month'))->format('Y-m-d H:i:s'),
     ];
 
     return array_replace_recursive($base, $overrides);
@@ -116,7 +93,7 @@ final class ContributionBuilder extends AbstractBaseBuilder {
    */
   public static function createPendingForContact(int $contactId, array $overrides = []): int {
     return self::createForContact($contactId, array_replace_recursive([
-      'contribution_status_id' => self::getConfig()->statusPendingId,
+      'contribution_status_id:name' => 'Pending',
     ], $overrides));
   }
 
@@ -133,7 +110,26 @@ final class ContributionBuilder extends AbstractBaseBuilder {
    */
   public static function createCompletedForContact(int $contactId, array $overrides = []): int {
     return self::createForContact($contactId, array_replace_recursive([
-      'contribution_status_id' => self::getConfig()->statusCompletedId,
+      'contribution_status_id:name' => 'Completed',
+      'receive_date' => (new \DateTimeImmutable('-14 days'))->format('Y-m-d H:i:s'),
+    ], $overrides));
+  }
+
+  /**
+   * Create a cancelled contribution for the given contact.
+   *
+   * @param int $contactId
+   *   Contact ID to assign to contact_id.
+   * @param array<string, mixed> $overrides
+   *   Optional payload overrides.
+   *
+   * @return int
+   *   The ID of the created contribution.
+   */
+  public static function createCancelledForContact(int $contactId, array $overrides = []): int {
+    return self::createForContact($contactId, array_replace_recursive([
+      'contribution_status_id:name' => 'Cancelled',
+      'receive_date' => (new \DateTimeImmutable('-14 days'))->format('Y-m-d H:i:s'),
     ], $overrides));
   }
 

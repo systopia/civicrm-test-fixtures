@@ -9,15 +9,7 @@ namespace Systopia\TestFixtures\Tests\Support;
  */
 final class DummyApiAction {
 
-  //@phpstan-ignore-next-line property.alwaysReadWrittenProperties
-  private array $values = [];
-
-  /**
-   * @param array<string, mixed> $values
-   */
-  public function setValues(array $values): self {
-    $this->values = $values;
-
+  public function setValues(): self {
     return $this;
   }
 

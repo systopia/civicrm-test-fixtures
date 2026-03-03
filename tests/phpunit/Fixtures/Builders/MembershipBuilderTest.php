@@ -28,7 +28,7 @@ final class MembershipBuilderTest extends TestCase {
    *
    */
   protected function tearDown(): void {
-    if ($this->tx !== NULL) {
+    if ($this->tx instanceof \CRM_Core_Transaction) {
       $this->tx->rollback();
       $this->tx = NULL;
     }
@@ -90,7 +90,7 @@ final class MembershipBuilderTest extends TestCase {
   /**
    *
    */
-  public function testCreateForContact_ThrowsException_WhenContactIdIsInvalid(): void {
+  public function testCreateForContact_WithInvalidContactId_ThrowsException_(): void {
     $this->expectException(\InvalidArgumentException::class);
     MembershipBuilder::createForContact(0);
   }

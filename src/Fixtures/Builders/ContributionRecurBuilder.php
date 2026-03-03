@@ -6,7 +6,6 @@ namespace Systopia\TestFixtures\Fixtures\Builders;
 
 use Civi\Api4\ContributionRecur;
 use Systopia\TestFixtures\Core\AbstractBaseBuilder;
-use Systopia\TestFixtures\Core\BuilderConfig;
 
 /**
  * Builder for CiviCRM Recurring Contributions (contribution_recur).
@@ -18,24 +17,6 @@ use Systopia\TestFixtures\Core\BuilderConfig;
  * contribution_recur entity.
  */
 final class ContributionRecurBuilder extends AbstractBaseBuilder {
-
-  /**
-   * Cached builder configuration.
-   *
-   * Shared across all calls during a test run to ensure consistent defaults.
-   *
-   * @var \Systopia\TestFixtures\Core\BuilderConfig|null
-   */
-  private static ?BuilderConfig $config = NULL;
-
-  /**
-   * Get the builder configuration (lazy default).
-   *
-   * @return \Systopia\TestFixtures\Core\BuilderConfig
-   */
-  private static function getConfig(): BuilderConfig {
-    return self::$config ??= new BuilderConfig();
-  }
 
   /**
    * Return the APIv4 entity class handled by this builder.
@@ -59,13 +40,11 @@ final class ContributionRecurBuilder extends AbstractBaseBuilder {
    *   Final payload passed to the APIv4 create action.
    */
   protected static function defineDefaults(array $overrides = []): array {
-    $config = self::getConfig();
-
     $base = [
       'amount' => 10.00,
       'currency' => 'EUR',
-      'financial_type_id' => $config->defaultFinancialTypeId,
-      'contribution_status_id' => $config->statusPendingId,
+      'financial_type_id:name' => 'Donation',
+      'contribution_status_id:name' => 'Pending',
 
       // Frequency.
       'frequency_unit' => 'month',
@@ -115,7 +94,7 @@ final class ContributionRecurBuilder extends AbstractBaseBuilder {
    */
   public static function createPendingForContact(int $contactId, array $overrides = []): int {
     return self::createForContact($contactId, array_replace_recursive([
-      'contribution_status_id' => self::getConfig()->statusPendingId,
+      'contribution_status_id:name' => 'Pending',
     ], $overrides));
   }
 
@@ -132,7 +111,7 @@ final class ContributionRecurBuilder extends AbstractBaseBuilder {
    */
   public static function createCompletedForContact(int $contactId, array $overrides = []): int {
     return self::createForContact($contactId, array_replace_recursive([
-      'contribution_status_id' => self::getConfig()->statusCompletedId,
+      'contribution_status_id:name' => 'Completed',
     ], $overrides));
   }
 
