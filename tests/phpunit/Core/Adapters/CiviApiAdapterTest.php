@@ -13,11 +13,7 @@ use Systopia\TestFixtures\Core\Interfaces\ApiResultInterface;
  */
 final class CiviApiAdapterTest extends TestCase {
 
-  /**
-   *
-   */
   public function testExecute_ReturnsResultAdapter_AndFirstReturnsRow(): void {
-    /** @var array<string, mixed> $expectedRow */
     $expectedRow = ['id' => 123];
 
     // Fake API result (has first())

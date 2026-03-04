@@ -5,38 +5,23 @@ declare(strict_types = 1);
 namespace Systopia\TestFixtures\Tests\Fixtures\Builders;
 
 use Civi\Api4\Contact;
+use Civi\Test;
+use Civi\Test\CiviEnvBuilder;
+use Civi\Test\HeadlessInterface;
+use Civi\Test\TransactionalInterface;
 use PHPUnit\Framework\TestCase;
 use Systopia\TestFixtures\Fixtures\Builders\ContactBuilder;
 
 /**
  * @covers \Systopia\TestFixtures\Fixtures\Builders\ContactBuilder
+ * @group headless
  */
-final class ContactBuilderTest extends TestCase {
+final class ContactBuilderTest extends TestCase implements HeadlessInterface, TransactionalInterface {
 
-  private ?\CRM_Core_Transaction $tx = NULL;
-
-  /**
-   *
-   */
-  protected function setUp(): void {
-    parent::setUp();
-    $this->tx = new \CRM_Core_Transaction();
+  public function setUpHeadless(): CiviEnvBuilder {
+    return Test::headless()->apply();
   }
 
-  /**
-   *
-   */
-  protected function tearDown(): void {
-    if ($this->tx instanceof \CRM_Core_Transaction) {
-      $this->tx->rollback();
-      $this->tx = NULL;
-    }
-    parent::tearDown();
-  }
-
-  /**
-   *
-   */
   public function testCreate_CreatesContactAndReturnsId(): void {
     $contactId = ContactBuilder::create();
 
@@ -50,9 +35,6 @@ final class ContactBuilderTest extends TestCase {
     self::assertStringStartsWith('User ', $contact['last_name']);
   }
 
-  /**
-   *
-   */
   public function testCreate_WithOverrides_AppliesOverrides(): void {
     $contactId = ContactBuilder::create([
       'first_name' => 'Daniel',
@@ -66,9 +48,6 @@ final class ContactBuilderTest extends TestCase {
     self::assertSame('Hahn', $contact['last_name']);
   }
 
-  /**
-   *
-   */
   public function testCreateDeceased_CreatesDeceasedContact(): void {
     $contactId = ContactBuilder::createDeceased();
 

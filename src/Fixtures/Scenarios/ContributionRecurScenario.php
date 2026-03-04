@@ -51,9 +51,9 @@ final class ContributionRecurScenario {
     array $membershipOverrides,
     array $recurringOverrides,
     ?array $contributionOverrides = NULL,
-    ?string $contactMethod = 'createDefault',
-    ?string $membershipMethod = 'createForContact',
-    ?string $recurringMethod = 'createPendingForContact',
+    string $contactMethod = 'createDefault',
+    string $membershipMethod = 'createForContact',
+    string $recurringMethod = 'createPendingForContact',
     ?string $contributionMethod = NULL,
   ): ContributionRecurBag {
     // Contact

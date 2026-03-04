@@ -12,9 +12,6 @@ use Systopia\TestFixtures\Core\Adapters\CiviApiResultAdapter;
  */
 final class CiviApiResultAdapterTest extends TestCase {
 
-  /**
-   *
-   */
   public function testFirst_WithValidRow_ReturnsRow(): void {
     /** @var array<string, mixed> $expectedRow */
     $expectedRow = ['id' => 123, 'foo' => 'bar'];
@@ -46,9 +43,6 @@ final class CiviApiResultAdapterTest extends TestCase {
     self::assertSame($expectedRow, $adapter->first());
   }
 
-  /**
-   *
-   */
   public function testFirst_WithNullRow_ReturnsNull(): void {
     // Fake API result returning null.
     $apiResult = new class {

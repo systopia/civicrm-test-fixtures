@@ -14,9 +14,6 @@ use Systopia\TestFixtures\Tests\Support\DummyApi;
  */
 final class CiviApiFactoryTest extends TestCase {
 
-  /**
-   *
-   */
   public function testCreate_WithValidApiClass_ReturnsApiActionAdapter(): void {
     $factory = new CiviApiFactory();
 
@@ -25,9 +22,6 @@ final class CiviApiFactoryTest extends TestCase {
     self::assertInstanceOf(ApiActionInterface::class, $action);
   }
 
-  /**
-   *
-   */
   public function testCreate_WithInvalidApiClass_ThrowsRuntimeException(): void {
     $factory = new CiviApiFactory();
 

@@ -1,46 +1,8 @@
 <?php
 declare(strict_types = 1);
 
-/**
- * @file
- */
+ini_set('memory_limit', '2G');
 
-define('CIVICRM_UF', 'UnitTests');
-
-use Composer\Autoload\ClassLoader;
-
-$host = getenv('TEST_DB_HOST');
-$user = getenv('TEST_DB_USER');
-$pass = getenv('TEST_DB_PASS');
-$name = getenv('TEST_DB_NAME');
-
-if (!$host || !$user || !$name) {
-  fwrite(STDERR, "Missing TEST_DB_* environment variables\n");
-  exit(1);
+if (file_exists(__DIR__ . '/bootstrap.local.php')) {
+  require_once __DIR__ . '/bootstrap.local.php';
 }
-
-$dsn = sprintf(
-  'mysql://%s:%s@%s/%s?new_link=true',
-  rawurlencode($user),
-  rawurlencode($pass),
-  $host,
-  $name
-);
-
-$GLOBALS['_CV'] = [
-  'TEST_DB_DSN' => $dsn,
-];
-
-$settings = '/var/www/html/private/civicrm.settings.php';
-if (!is_readable($settings)) {
-  fwrite(STDERR, "Missing $settings\n");
-  exit(1);
-}
-require $settings;
-
-$loader = new ClassLoader();
-$loader->addPsr4('Civi\\', [__DIR__ . '/Civi']);
-$loader->addPsr4('api\\', [__DIR__ . '/api']);
-$loader->register();
-
-CRM_Core_Config::singleton();

@@ -11,9 +11,6 @@ use Systopia\TestFixtures\Core\AbstractBaseBuilder;
  */
 final class DummyBuilderAbstract extends AbstractBaseBuilder {
 
-  /**
-   *
-   */
   protected static function defineApiEntityClass(): string {
     return DummyApi::class;
   }

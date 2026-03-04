@@ -12,9 +12,6 @@ use Systopia\TestFixtures\Fixtures\Bags\ContributionRecurBag;
  */
 final class ContributionRecurBagTest extends TestCase {
 
-  /**
-   *
-   */
   public function testConstructor_WithValidValues_AssignsProperties(): void {
     $bag = new ContributionRecurBag(
       contactId: 1, membershipId: 2, recurringContributionId: 3
@@ -25,41 +22,26 @@ final class ContributionRecurBagTest extends TestCase {
     self::assertSame(3, $bag->recurringContributionId);
   }
 
-  /**
-   *
-   */
   public function testConstructor_WithInvalidContactId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
     new ContributionRecurBag(contactId: 0);
   }
 
-  /**
-   *
-   */
   public function testConstructor_WithInvalidMembershipId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
     new ContributionRecurBag(contactId: 1, membershipId: 0);
   }
 
-  /**
-   *
-   */
   public function testConstructor_WithInvalidRecurringContributionId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
     new ContributionRecurBag(contactId: 1, recurringContributionId: 0);
   }
 
-  /**
-   *
-   */
   public function testConstructor_WithInvalidContributionId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
     new ContributionRecurBag(contactId: 1, contributionId: 0, recurringContributionId: 0);
   }
 
-  /**
-   *
-   */
   public function testFromIds_WithValidValues_ReturnsBag(): void {
     $bag = ContributionRecurBag::fromIds(
       contactId: 10,
@@ -72,9 +54,6 @@ final class ContributionRecurBagTest extends TestCase {
     self::assertSame(30, $bag->recurringContributionId);
   }
 
-  /**
-   *
-   */
   public function testToArray_WithValidBag_ReturnsSchemaConformArray(): void {
     $bag = new ContributionRecurBag(
       contactId: 1, membershipId: 2, recurringContributionId: 3
