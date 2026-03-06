@@ -101,7 +101,7 @@ abstract class AbstractBaseBuilder {
    * @param array<string, mixed> $overrides
    */
   final public static function createDefault(array $overrides = []): int {
-    return static::create($overrides);
+    return self::create($overrides);
   }
 
   /**

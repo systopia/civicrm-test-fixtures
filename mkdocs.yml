@@ -1,7 +1,7 @@
 site_name: Test Fixtures
 site_description: Reusable PHPUnit fixtures for CiviCRM extensions
-site_author: Daniel Hahn
-repo_url: https://github.com/systopia/test-fixtures
+site_author: SYSTOPIA
+repo_url: https://github.com/systopia/civicrm-test-fixtures
 
 theme:
   name: material

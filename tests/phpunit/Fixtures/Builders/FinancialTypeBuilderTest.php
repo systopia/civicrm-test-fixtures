@@ -5,38 +5,23 @@ declare(strict_types = 1);
 namespace Systopia\TestFixtures\Tests\Fixtures\Builders;
 
 use Civi\Api4\FinancialType;
+use Civi\Test;
+use Civi\Test\CiviEnvBuilder;
+use Civi\Test\HeadlessInterface;
+use Civi\Test\TransactionalInterface;
 use PHPUnit\Framework\TestCase;
 use Systopia\TestFixtures\Fixtures\Builders\FinancialTypeBuilder;
 
 /**
- *
+ * @covers \Systopia\TestFixtures\Fixtures\Builders\FinancialTypeBuilder
+ * @group headless
  */
-final class FinancialTypeBuilderTest extends TestCase {
+final class FinancialTypeBuilderTest extends TestCase implements HeadlessInterface, TransactionalInterface {
 
-  private ?\CRM_Core_Transaction $tx = NULL;
-
-  /**
-   *
-   */
-  protected function setUp(): void {
-    parent::setUp();
-    $this->tx = new \CRM_Core_Transaction();
+  public function setUpHeadless(): CiviEnvBuilder {
+    return Test::headless()->apply();
   }
 
-  /**
-   *
-   */
-  protected function tearDown(): void {
-    if ($this->tx !== NULL) {
-      $this->tx->rollback();
-      $this->tx = NULL;
-    }
-    parent::tearDown();
-  }
-
-  /**
-   *
-   */
   public function testCreate_CreatesFinancialTypeAndReturnsId(): void {
     $typeId = FinancialTypeBuilder::create();
 
@@ -50,9 +35,6 @@ final class FinancialTypeBuilderTest extends TestCase {
     self::assertNotEmpty($type['name']);
   }
 
-  /**
-   *
-   */
   public function testCreate_WithOverrides_AppliesOverrides(): void {
     $typeId = FinancialTypeBuilder::create([
       'name' => 'Custom Financial Type',
@@ -67,10 +49,7 @@ final class FinancialTypeBuilderTest extends TestCase {
     self::assertFalse((bool) $type['is_active']);
   }
 
-  /**
-   *
-   */
-  public function testCreate_ThrowsException_WhenNameIsEmpty(): void {
+  public function testCreate_WithEmptyName_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
 
     FinancialTypeBuilder::create([

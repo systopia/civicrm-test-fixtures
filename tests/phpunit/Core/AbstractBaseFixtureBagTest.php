@@ -13,22 +13,13 @@ use Systopia\TestFixtures\Core\AbstractBaseFixtureBag;
  */
 final class AbstractBaseFixtureBagTest extends TestCase {
 
-  /**
-   *
-   */
   public function testToArray_ReturnsData_WhenSchemaAndExportMatch(): void {
     $bag = new class() extends AbstractBaseFixtureBag {
 
-      /**
-       *
-       */
       public static function schema(): array {
         return ['contactId', 'membershipId', 'contributionId'];
       }
 
-      /**
-       *
-       */
       protected function export(): array {
         return [
           'contactId' => 123,
@@ -46,22 +37,13 @@ final class AbstractBaseFixtureBagTest extends TestCase {
     ], $bag->toArray());
   }
 
-  /**
-   *
-   */
   public function testToArray_AllowsNullValues(): void {
     $bag = new class() extends AbstractBaseFixtureBag {
 
-      /**
-       *
-       */
       public static function schema(): array {
         return ['contactId', 'membershipId', 'contributionId'];
       }
 
-      /**
-       *
-       */
       protected function export(): array {
         return [
           'contactId' => 123,
@@ -79,22 +61,13 @@ final class AbstractBaseFixtureBagTest extends TestCase {
     ], $bag->toArray());
   }
 
-  /**
-   *
-   */
   public function testToArray_WithMissingSchemaKeys_ThrowsException(): void {
     $bag = new class() extends AbstractBaseFixtureBag {
 
-      /**
-       *
-       */
       public static function schema(): array {
         return ['a', 'b'];
       }
 
-      /**
-       *
-       */
       protected function export(): array {
         return ['a' => 1];
       }
@@ -106,22 +79,13 @@ final class AbstractBaseFixtureBagTest extends TestCase {
     $bag->toArray();
   }
 
-  /**
-   *
-   */
   public function testToArray_WithExtraSchemaKeys_ThrowsException(): void {
     $bag = new class() extends AbstractBaseFixtureBag {
 
-      /**
-       *
-       */
       public static function schema(): array {
         return ['a'];
       }
 
-      /**
-       *
-       */
       protected function export(): array {
         // Extra 'b'.
         return ['a' => 1, 'b' => 2];

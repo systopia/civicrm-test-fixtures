@@ -7,38 +7,23 @@ namespace Systopia\TestFixtures\Tests\Fixtures\Scenarios;
 use Civi\Api4\Contact;
 use Civi\Api4\Contribution;
 use Civi\Api4\Membership;
+use Civi\Test;
+use Civi\Test\CiviEnvBuilder;
+use Civi\Test\HeadlessInterface;
+use Civi\Test\TransactionalInterface;
 use PHPUnit\Framework\TestCase;
 use Systopia\TestFixtures\Fixtures\Scenarios\ContributionScenario;
 
 /**
  * @covers \Systopia\TestFixtures\Fixtures\Scenarios\ContributionScenario
+ * @group headless
  */
-final class ContributionScenarioTest extends TestCase {
+final class ContributionScenarioTest extends TestCase implements HeadlessInterface, TransactionalInterface {
 
-  private ?\CRM_Core_Transaction $tx = NULL;
-
-  /**
-   *
-   */
-  protected function setUp(): void {
-    parent::setUp();
-    $this->tx = new \CRM_Core_Transaction();
+  public function setUpHeadless(): CiviEnvBuilder {
+    return Test::headless()->apply();
   }
 
-  /**
-   *
-   */
-  protected function tearDown(): void {
-    if ($this->tx !== NULL) {
-      $this->tx->rollback();
-      $this->tx = NULL;
-    }
-    parent::tearDown();
-  }
-
-  /**
-   *
-   */
   public function testContactWithMembershipAndOpenContribution_CreatesAndReturnsBag(): void {
     $bag = ContributionScenario::contactWithMembershipAndOpenContribution();
 
@@ -63,17 +48,14 @@ final class ContributionScenarioTest extends TestCase {
     $membership = Membership::get(FALSE)->addWhere('id', '=', $membershipId)->execute()->first();
 
     self::assertNotNull($membership);
-    self::assertSame($contactId, (int) $membership['contact_id']);
+    self::assertSame($contactId, $membership['contact_id']);
 
     $contribution = Contribution::get(FALSE)->addWhere('id', '=', $contributionId)->execute()->first();
 
     self::assertNotNull($contribution);
-    self::assertSame($contactId, (int) $contribution['contact_id']);
+    self::assertSame($contactId, $contribution['contact_id']);
   }
 
-  /**
-   *
-   */
   public function testContactWithMembershipAndOpenContribution_AppliesOverrides(): void {
     $bag = ContributionScenario::contactWithMembershipAndOpenContribution(
       contactOverrides: [
@@ -103,20 +85,20 @@ final class ContributionScenarioTest extends TestCase {
     $contact = Contact::get(FALSE)->addWhere('id', '=', $contactId)->execute()->first();
 
     self::assertNotNull($contact);
-    self::assertSame('Ada', (string) ($contact['first_name'] ?? ''));
-    self::assertSame('Lovelace', (string) ($contact['last_name'] ?? ''));
+    self::assertSame('Ada', ($contact['first_name'] ?? ''));
+    self::assertSame('Lovelace', ($contact['last_name'] ?? ''));
 
     $membership = Membership::get(FALSE)->addWhere('id', '=', $membershipId)->execute()->first();
 
     self::assertNotNull($membership);
-    self::assertSame('2022-01-01', (string) $membership['join_date']);
-    self::assertSame('2022-01-02', (string) $membership['start_date']);
+    self::assertSame('2022-01-01', $membership['join_date']);
+    self::assertSame('2022-01-02', $membership['start_date']);
 
     $contribution = Contribution::get(FALSE)->addWhere('id', '=', $contributionId)->execute()->first();
 
     self::assertNotNull($contribution);
-    self::assertSame(99.95, (float) $contribution['total_amount']);
-    self::assertSame('USD', (string) $contribution['currency']);
+    self::assertSame(99.95, $contribution['total_amount']);
+    self::assertSame('USD', $contribution['currency']);
   }
 
 }

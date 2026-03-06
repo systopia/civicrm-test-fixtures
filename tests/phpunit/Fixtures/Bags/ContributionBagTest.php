@@ -12,9 +12,6 @@ use Systopia\TestFixtures\Fixtures\Bags\ContributionBag;
  */
 final class ContributionBagTest extends TestCase {
 
-  /**
-   *
-   */
   public function testConstructor_WithValidValues_AssignsProperties(): void {
     $bag = new ContributionBag(
       contactId: 123, membershipId: 456, contributionId: 789
@@ -25,30 +22,21 @@ final class ContributionBagTest extends TestCase {
     self::assertSame(789, $bag->contributionId);
   }
 
-  /**
-   *
-   */
   public function testConstructor_WithInvalidContactId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
     new ContributionBag(
-      contactId: 0, membershipId: 1, contributionId: NULL
+      contactId: 0, membershipId: 1
     );
   }
 
-  /**
-   *
-   */
   public function testConstructor_WithInvalidMembershipId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
 
     new ContributionBag(
-      contactId: 1, membershipId: 0, contributionId: NULL
+      contactId: 1, membershipId: 0
     );
   }
 
-  /**
-   *
-   */
   public function testConstructor_WithInvalidContributionId_ThrowsException(): void {
     $this->expectException(\InvalidArgumentException::class);
     new ContributionBag(
@@ -56,9 +44,6 @@ final class ContributionBagTest extends TestCase {
     );
   }
 
-  /**
-   *
-   */
   public function testFromIds_WithValidValues_ReturnsBag(): void {
     $bag = ContributionBag::fromIds(
       contactId: 10,
@@ -71,9 +56,6 @@ final class ContributionBagTest extends TestCase {
     self::assertSame(30, $bag->contributionId);
   }
 
-  /**
-   *
-   */
   public function testToArray_WithValidBag_ReturnsSchemaConformArray(): void {
     $bag = new ContributionBag(
       contactId: 1, membershipId: 2, contributionId: 3

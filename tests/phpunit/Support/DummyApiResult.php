@@ -4,9 +4,6 @@ declare(strict_types = 1);
 
 namespace Systopia\TestFixtures\Tests\Support;
 
-/**
- *
- */
 final class DummyApiResult {
 
   /**

@@ -13,18 +13,14 @@ use Systopia\TestFixtures\Core\Interfaces\ApiResultInterface;
  */
 final class CiviApiAdapterTest extends TestCase {
 
-  /**
-   *
-   */
   public function testExecute_ReturnsResultAdapter_AndFirstReturnsRow(): void {
-    /** @var array<string, mixed> $expectedRow */
     $expectedRow = ['id' => 123];
 
     // Fake API result (has first())
     $apiResult = new class($expectedRow) {
 
       /** @var array<string, mixed> */
-      private array $row;
+      private readonly array $row;
 
       /**
        * @param array<string, mixed> $row
@@ -48,7 +44,7 @@ final class CiviApiAdapterTest extends TestCase {
       /** @var array<string, mixed> */
       public array $receivedValues = [];
 
-      private object $result;
+      private readonly object $result;
 
       public function __construct(object $result) {
         $this->result = $result;
@@ -63,9 +59,6 @@ final class CiviApiAdapterTest extends TestCase {
         return $this;
       }
 
-      /**
-       * @return object
-       */
       public function execute(): object {
         return $this->result;
       }

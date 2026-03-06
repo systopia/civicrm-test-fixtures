@@ -19,6 +19,7 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testCreate_WithValidRow_ReturnsId(): void {
     $result = $this->createMock(ApiResultInterface::class);
@@ -40,6 +41,7 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testCreate_WithOverrides_PassesMergedValuesToApi(): void {
     $expectedValues = [
@@ -69,20 +71,15 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testCreate_WithMissingApiClass_ThrowsRuntimeException(): void {
     $builder = new class extends AbstractBaseBuilder {
 
-      /**
-       *
-       */
       protected static function defineApiEntityClass(): string {
         return 'NonExistentApiClass';
       }
 
-      /**
-       *
-       */
       protected static function defineDefaults(array $overrides = []): array {
         return [];
       }
@@ -97,6 +94,7 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testCreate_WithNullRow_ThrowsRuntimeException(): void {
     $result = $this->createMock(ApiResultInterface::class);
@@ -119,6 +117,7 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testCreate_WithRowMissingId_ThrowsRuntimeException(): void {
     $result = $this->createMock(ApiResultInterface::class);
@@ -141,6 +140,7 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testCreateDefault_WithValidRow_ReturnsId(): void {
     $result = $this->createMock(ApiResultInterface::class);
@@ -162,6 +162,7 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testUniqueToken_WithPrefix_ReturnsPrefixedToken(): void {
     $token = DummyBuilderAbstract::uniqueTokenPublic('x_');
@@ -172,6 +173,7 @@ final class AbstractBaseBuilderTest extends TestCase {
 
   /**
    * @runInSeparateProcess
+   * @preserveGlobalState disabled
    */
   public function testUniqueToken_WithTwoCalls_ReturnsDifferentTokens(): void {
     $a = DummyBuilderAbstract::uniqueTokenPublic();
