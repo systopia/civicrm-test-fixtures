@@ -47,7 +47,12 @@ final class CiviApiResultAdapterTest extends TestCase {
     // Fake API result returning null.
     $apiResult = new class {
 
-      public function first(): null {
+      /**
+       * TODO: [PHP >=8.2: REMOVE PHPSTAN-IGNORE]
+       *
+       * @phpstan-ignore missingType.return
+       */
+      public function first() {
         return NULL;
       }
 

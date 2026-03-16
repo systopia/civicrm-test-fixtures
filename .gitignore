@@ -5,3 +5,4 @@
 /tools/*/composer.lock
 /vendor/
 *.cache
+/tests/phpunit/bootstrap.local.php

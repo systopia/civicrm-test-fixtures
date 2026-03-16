@@ -70,6 +70,7 @@ abstract class AbstractBaseBuilder {
 
   /**
    * Create the entity via APIv4 and return its numeric ID.
+   * Stores the created entry in <FixtureEntityStore> for optional access.
    *
    * @param array<string, mixed> $overrides
    */
@@ -87,6 +88,8 @@ abstract class AbstractBaseBuilder {
     if ($row === NULL || !isset($row['id'])) {
       throw new RuntimeException(sprintf('Failed to create entity via %s::create()', $api));
     }
+
+    FixtureEntityStore::addEntity($api, $row);
 
     /** @var int $id */
     $id = $row['id'];
