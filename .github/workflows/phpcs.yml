@@ -1,0 +1,40 @@
+name: PHP_CodeSniffer
+
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - composer.json
+      - phpcs.xml.dist
+      - .github/workflows/phpcs.yml
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    name: PHP_CodeSniffer
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+        coverage: none
+        tools: cs2pr
+      env:
+        fail-fast: true
+
+    - name: Install dependencies
+      env:
+        COMPOSER_COMPILE: all
+      run: |
+        composer config --no-plugins allow-plugins.civicrm/composer-compile-plugin false
+        composer config --no-plugins allow-plugins.civicrm/composer-downloads-plugin true
+        composer config --no-plugins allow-plugins.composer/installers true
+        composer config --no-plugins allow-plugins.cweagans/composer-patches true
+        composer update --no-scripts --no-progress --prefer-dist --optimize-autoloader --ignore-platform-reqs
+
+    - name: Run PHP_CodeSniffer
+      run: |
+        composer phpcs -- -q --report=checkstyle | cs2pr

@@ -1,0 +1,21 @@
+parameters:
+    paths:
+        - src
+        - tests
+    excludePaths:
+        analyse:
+            - tests/phpunit/bootstrap.php
+    scanDirectories:
+        - vendor/civicrm/civicrm-core/api/
+        - vendor/civicrm/civicrm-core/Civi/
+        - vendor/civicrm/civicrm-core/CRM/
+        - vendor/civicrm/civicrm-core/ext/
+        - vendor/civicrm/civicrm-packages/HTML/
+        - vendor/project60/org.project60.sepa/
+    bootstrapFiles:
+        - vendor/autoload.php
+    level: 9
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkUninitializedProperties: true
+    checkMissingCallableSignature: true
+    tmpDir: .phpstan
