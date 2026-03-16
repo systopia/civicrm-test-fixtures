@@ -60,7 +60,8 @@
     "squizlabs/php_codesniffer": "^3.13",
     "drupal/coder": "dev-8.x-2.x-civi",
     "friendsofphp/php-cs-fixer": "^3.94",
-    "rector/rector": "^2.3"
+    "rector/rector": "^2.3",
+    "civicrm/composer-compile-plugin": "^0.22"
   },
   "scripts": {
     "phpstan": [
