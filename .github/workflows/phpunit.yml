@@ -50,7 +50,7 @@ jobs:
           composer config --no-plugins allow-plugins.cweagans/composer-patches true
           composer config --no-plugins allow-plugins.civicrm/composer-compile-plugin true
           composer config --no-plugins allow-plugins.civicrm/composer-downloads-plugin true
-          composer update --no-interaction --prefer-dist --${{ matrix.prefer }}
+          composer update --no-interaction --prefer-dist --no-scripts --${{ matrix.prefer }}
                 
           php -v
           composer --version
