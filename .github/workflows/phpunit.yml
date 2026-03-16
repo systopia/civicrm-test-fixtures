@@ -44,20 +44,13 @@ jobs:
 
       - name: Install project dependencies
         env:
-          COMPOSER_COMPILE: all
+          COMPOSER_COMPILE: none
         run: |
           composer config --no-plugins allow-plugins.composer/installers true
           composer config --no-plugins allow-plugins.cweagans/composer-patches true
           composer config --no-plugins allow-plugins.civicrm/composer-compile-plugin true
           composer config --no-plugins allow-plugins.civicrm/composer-downloads-plugin true
           composer update --no-interaction --prefer-dist --no-scripts --${{ matrix.prefer }}
-                
-          php -v
-          composer --version
-          composer show civicrm/composer-compile-plugin
-          sed -n '1,120p' vendor/civicrm/composer-compile-plugin/src/Command/CompileCommand.php
-      
-          composer compile -vvv
 
       - name: Install CiviCRM standalone
         run: |
@@ -98,9 +91,6 @@ jobs:
         run: |
           export PATH="$(realpath ../civicrm-standalone/vendor/bin):$PATH"
           export CV_CONFIG="$HOME/.cv.json"
+          ROOT_DIR="$(pwd)"
           cd ../civicrm-standalone/ext/civicrm-test-fixtures
-
-          echo "CV_CONFIG=$CV_CONFIG"
-          grep TEST_DB_DSN "$CV_CONFIG"
-
-          /workspace/civicrm-test-fixtures/vendor/bin/phpunit --coverage-text
+          "$ROOT_DIR/vendor/bin/phpunit" --coverage-text
