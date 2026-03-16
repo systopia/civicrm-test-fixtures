@@ -50,7 +50,10 @@ jobs:
           composer show -a civicrm/composer-compile-plugin || true
           composer why civicrm/composer-compile-plugin || true
           grep -R "composer-compile-plugin" composer.json composer.lock vendor -n || true
-          
+          php -v
+          composer --version
+          php -r "require 'vendor/autoload.php'; echo \Composer\InstalledVersions::getPrettyVersion('civicrm/composer-compile-plugin') . PHP_EOL;"
+  
           composer config --no-plugins allow-plugins.composer/installers true
           composer config --no-plugins allow-plugins.cweagans/composer-patches true
           composer config --no-plugins allow-plugins.civicrm/composer-compile-plugin true
