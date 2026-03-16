@@ -63,9 +63,6 @@
     "rector/rector": "^2.3"
   },
   "scripts": {
-    "pre-update-cmd": [
-      "Contract\\ComposerHelper::preUpdate"
-    ],
     "phpstan": [
       "@php ./vendor/bin/phpstan -v"
     ],
