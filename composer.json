@@ -52,7 +52,8 @@
     "civicrm/civicrm-core": ">=5.81",
     "civicrm/civicrm-packages": ">=5.81",
     "project60/org.project60.sepa": "dev-master",
-    "project60/org.project60.banking": "dev-master"
+    "project60/org.project60.banking": "dev-master",
+    "symfony/polyfill-php82": "^1.29"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6",
