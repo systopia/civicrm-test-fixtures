@@ -5,12 +5,14 @@ parameters:
     excludePaths:
         analyse:
             - tests/phpunit/bootstrap.php
-            - tests/phpunit/bootstrap.local.php (?)
     scanDirectories:
-        - vendor/phpunit/phpunit/src/Framework
-        - ../org.project60.sepa/
-        - ../org.project60.banking/
-        - ../de.systopia.contract
+        - vendor/civicrm/civicrm-core/api/
+        - vendor/civicrm/civicrm-core/Civi/
+        - vendor/civicrm/civicrm-core/CRM/
+        - vendor/civicrm/civicrm-core/ext/
+        - vendor/civicrm/civicrm-packages/HTML/
+    bootstrapFiles:
+        - vendor/autoload.php
     level: 9
     checkTooWideReturnTypesInProtectedAndPublicMethods: true
     checkUninitializedProperties: true

@@ -76,6 +76,9 @@ final class AbstractBaseBuilderTest extends TestCase {
   public function testCreate_WithMissingApiClass_ThrowsRuntimeException(): void {
     $builder = new class extends AbstractBaseBuilder {
 
+      /**
+       * @return string
+       */
       protected static function defineApiEntityClass(): string {
         return 'NonExistentApiClass';
       }

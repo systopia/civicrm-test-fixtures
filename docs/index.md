@@ -7,6 +7,7 @@ It provides:
 - [Builders](builders.md) for single entities (returning numeric IDs)
 - [Scenarios](scenarios.md)  that orchestrate multiple builders and return a **Fixture Bag**
 - [Fixture Bags](bags.md)  as immutable return objects with schema validation
+- [Fixture Entity Store](entity-store.md) static in-memory registry of created entities
 - A thin **APIv4 adapter/factory layer** so builders stay simple and can be tested with fakes
 
 ---
@@ -60,6 +61,21 @@ Bags are immutable objects. Consumers should read IDs via `toArray()`.
 Scenarios create real CiviCRM entities.
 
 **Tests are expected to wrap execution in a database transaction and roll it back!** (See the example)
+
+---
+
+## Access Builder Data
+
+The FixtureEntityStore is a lightweight, static in-memory registry used during test execution to keep track of created entities.
+
+```php
+use Systopia\TestFixtures\Fixtures\Scenarios\ContributionScenario;
+
+ContributionScenario::contactWithMembershipAndPendingContribution();
+
+$entities = FixtureEntityStore::getEntities();
+$contact = $entities['Civi\Api4\Contact'];
+```
 
 ---
 

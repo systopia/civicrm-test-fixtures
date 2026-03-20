@@ -25,7 +25,7 @@ final class CiviApiResultAdapter implements ApiResultInterface {
   private object $result;
 
   /**
-   * @param mixed $result
+   * @param object $result
    *   APIv4 result object providing a first() method.
    */
   public function __construct(object $result) {
@@ -40,6 +40,7 @@ final class CiviApiResultAdapter implements ApiResultInterface {
    */
   public function first(): ?array {
     /** @var array<string, mixed>|null $row */
+    // @phpstan-ignore method.notFound
     $row = $this->result->first();
 
     return $row;

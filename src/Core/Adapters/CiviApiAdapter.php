@@ -44,19 +44,19 @@ final class CiviApiAdapter implements ApiActionInterface {
    * @return self
    */
   public function setValues(array $values): self {
+    // @phpstan-ignore method.notFound
     $this->action->setValues($values);
-
     return $this;
   }
 
   /**
    * Execute the underlying API action and wrap the result in an adapter.
    *
-   * @return \Systopia\TestFixtures\Core\Interfaces\ApiActionInterface
+   * @return \Systopia\TestFixtures\Core\Interfaces\ApiResultInterface
    */
   public function execute(): ApiResultInterface {
+    // @phpstan-ignore method.notFound
     $result = $this->action->execute();
-
     return new CiviApiResultAdapter($result);
   }
 
