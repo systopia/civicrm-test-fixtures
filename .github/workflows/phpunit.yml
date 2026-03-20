@@ -77,12 +77,9 @@ jobs:
         run: |
           cd ../civicrm-standalone
           export PATH="$(pwd)/vendor/bin:$PATH"
-          cv ext:download "org.project60.sepa@https://github.com/Project60/org.project60.sepa/releases/download/1.12.3/org.project60.sepa-1.12.3.zip"
-          cv ext:download "org.project60.banking@https://codeload.github.com/Project60/org.project60.banking/zip/refs/tags/1.3.3"
 
       - name: Place project into standalone ext dir
         run: |
-          rm -rf ../civicrm-standalone/ext/civicrm-test-fixtures
           mkdir -p ../civicrm-standalone/ext
           cp -R . ../civicrm-standalone/ext/civicrm-test-fixtures
           rm -rf ../civicrm-standalone/ext/civicrm-test-fixtures/vendor
@@ -93,4 +90,4 @@ jobs:
           export CV_CONFIG="$HOME/.cv.json"
           ROOT_DIR="$(pwd)"
           cd ../civicrm-standalone/ext/civicrm-test-fixtures
-          "$ROOT_DIR/vendor/bin/phpunit" --coverage-text
+          "$ROOT_DIR/vendor/bin/phpunit"
