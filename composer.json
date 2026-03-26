@@ -32,11 +32,11 @@
   ],
   "require": {
     "php": ">=8.1",
-    "civicrm/civicrm-core": ">=5.76",
-    "civicrm/civicrm-packages": ">=5.76",
     "symfony/polyfill-php82": "^1.29"
   },
   "require-dev": {
+    "civicrm/civicrm-core": ">=5.76",
+    "civicrm/civicrm-packages": ">=5.76",
     "phpunit/phpunit": "^9.6",
     "phpstan/phpstan": "^2.1",
     "squizlabs/php_codesniffer": "^3.13",
