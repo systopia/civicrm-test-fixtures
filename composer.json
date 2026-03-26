@@ -2,7 +2,7 @@
   "name": "systopia/civicrm-test-fixtures",
   "type": "library",
   "description": "Reusable PHPUnit fixtures for CiviCRM extensions",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "license": "AGPL-3.0-or-later",
   "version": "0.1.0",
